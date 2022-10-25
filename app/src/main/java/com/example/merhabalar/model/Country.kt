@@ -1,7 +1,10 @@
 package com.example.merhabalar.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Country(
     @SerializedName(value = "name")
     val name: String?,
@@ -16,5 +19,6 @@ data class Country(
     @SerializedName(value = "flag")
     val imageURL: String?
 ) {
+    @PrimaryKey(autoGenerate = true)
     val uuid: Int = 0
 }

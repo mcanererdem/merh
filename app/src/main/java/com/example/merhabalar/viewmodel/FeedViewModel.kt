@@ -10,8 +10,8 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
 class FeedViewModel : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
-    private val countryAPIService = CountryAPIService()
+    private val compositeDisposable by lazy { CompositeDisposable() }
+    private val retroService = CountryAPIService()
 
     val countryList = MutableLiveData<List<Country>>()
     val countryError: MutableLiveData<Boolean?> = MutableLiveData<Boolean?>()
@@ -25,13 +25,13 @@ class FeedViewModel : ViewModel() {
         countryLoading.value = true
 
         compositeDisposable.add(
-            countryAPIService.getData().subscribeOn(Schedulers.newThread())
+            retroService.getDataWithRetro().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Country>>() {
                     override fun onSuccess(t: List<Country>) {
                         countryList.value = t
-                        countryError.value = false
                         countryLoading.value = false
+                        countryError.value = false
                     }
 
                     override fun onError(e: Throwable) {
@@ -41,10 +41,5 @@ class FeedViewModel : ViewModel() {
                     }
                 })
         )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
     }
 }

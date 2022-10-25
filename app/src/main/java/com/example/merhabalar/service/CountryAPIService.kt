@@ -12,12 +12,12 @@ class CountryAPIService {
     // ext -> atilsamancioglu/IA19-DataSetCountries/master/countrydataset.json
 
     private val BASE_URL = "https://raw.githubusercontent.com/"
-    private val apiRetro =
+    val retroAPI =
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
             .create(CountryAPI::class.java)
 
-    fun getData(): Single<List<Country>> {
-        return apiRetro.getCountries()
+    fun getDataWithRetro(): Single<List<Country>> {
+        return retroAPI.getDataWithRetro()
     }
 }

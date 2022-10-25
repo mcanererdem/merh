@@ -7,8 +7,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.merhabalar.R
 import com.example.merhabalar.model.Country
-import com.example.merhabalar.util.downloadFromURL
-import com.example.merhabalar.util.placeHodlerProgressBar
+import com.example.merhabalar.util.downloadFromUrl
+import com.example.merhabalar.util.placeHolderProgressBar
 import com.example.merhabalar.view.fragments.FeedFragmentDirections
 import kotlinx.android.synthetic.main.item_country.view.*
 
@@ -24,17 +24,15 @@ class CountryAdapter(val countryList: ArrayList<Country>) :
     override fun onBindViewHolder(holder: CountryHolder, position: Int) {
         holder.view.tv_name_itemCountry.text = countryList[position].name
         holder.view.tv_region_itemCountry.text = countryList[position].region
-
-        holder.view.iv_itemCountry.downloadFromURL(
-            countryList[position].imageURL!!,
-            placeHodlerProgressBar(holder.view.context)
-        )
-
         holder.itemView.setOnClickListener {
             val actionToCountryFragment =
                 FeedFragmentDirections.actionFeedFragmentToCountryFragment()
             Navigation.findNavController(it).navigate(actionToCountryFragment)
         }
+        holder.view.iv_itemCountry.downloadFromUrl(
+            countryList[position].imageURL!!,
+            placeHolderProgressBar(holder.view.context)
+        )
     }
 
     override fun getItemCount(): Int {
